@@ -1,10 +1,9 @@
-#!/usr/bin/python
+from views import db
+from models import Task
+from datetime import date
 
-import sqlite3
-from _config import DATABASE_PATH 
+db.create_all()
+db.session.add(Task("finish this shit", date(2015, 3, 13), 10, 1))
+db.session.add(Task("date :))", date(2015, 3, 13), 10, 1))
 
-with sqlite3.connect(DATABASE_PATH) as connection : 
-	c = connection.cursor()
-
-	c.execute("""CREATE TABLE tasks()"""
-		)
+db.session.commit()
