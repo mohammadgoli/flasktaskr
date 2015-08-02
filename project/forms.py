@@ -1,7 +1,8 @@
+# _*_ coding: utf-8 _*_
 from flask_wtf import Form
 from wtforms import TextField, IntegerField, SelectField, PasswordField, StringField
-from wtforms_html5 import DateField, DateRange
-from wtforms.validators import DataRequired, Length, EqualTo
+from wtforms_html5 import DateRange, DateField
+from wtforms.validators import DataRequired, Length, EqualTo, Email
 from datetime import date
 
 
@@ -10,7 +11,10 @@ class AddTaskForm(Form):
     name = TextField('Task Name', validators=[DataRequired()])
     due_date = DateField(
         'Date Due (mm/dd/yyyy)',
-        validators=[DataRequired(), DateRange(date(2000, 1, 1), date(2100, 4, 20))]
+        validators=[DataRequired(), DateRange(
+            min=date(2000, 1, 1),
+            max=date(2100, 10, 10)
+        )]
     )
     priority = SelectField(
         'Priority',
@@ -22,13 +26,14 @@ class AddTaskForm(Form):
     status = IntegerField('Status')
 
 class RegistrationForm(Form):
+    u = u'باید وارد شود!'
     name = StringField(
         'Username',
-        validators=[DataRequired(), Length(min=6, max=25)]
+        validators=[DataRequired(message=u), Length(min=6, max=25)]
     )
     email = StringField(
         'Email',
-        validators=[DataRequired(), Length(min=6, max=40)]
+        validators=[DataRequired(), Email(), Length(min=6, max=40)]
     )
     password = PasswordField(
         'Password',
